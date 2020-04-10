@@ -6,12 +6,13 @@ var fs = require('fs');
 
 var s3 = new AWS.S3();
 
+
 AWS.config.httpOptions.timeout = 0;
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 /***************       those variables should be changed every time you change the large file wanted  */
-var firstname = "Test.MKV.00";
+var firstname = "Test.MKV";
 var filePath = 'C:\\TestSplit\\';
 
 // how many files in the folder +1
@@ -20,7 +21,7 @@ var Max = 4;
 var params = {
     Bucket: "testboushabamohamed",
     Key: "Test.MKV",
-    UploadId: "RijknXj0FctuIPH5LBoKTvZ5drIf8uLteAoBFnDgTuAzhD3VsjY2nBDeYxFiE72ltdHbTqTCoxvOPg1FQvPjchc_DJGMwGtGeSFsMENvrz4mM5U9eFSiHoN61KzrBdJ."
+    UploadId: "hEUQk6PQiS_on2Uea6fWD8gIWQv_nn24UrpIGNf4ooEjoK1JCtoMX4jTWFLdG450H.TDRiPSl6cuf.VBXGMObeVA4SP_c.5JEQcdKpM5LuTymgVg5OhGa7s5YwvufI.i"
 };
 
 
@@ -94,8 +95,20 @@ function MpProcess(params) {
                     console.log("!!!!!!!!!!!!!!!! FiNiSh::::");
                     resolve("END :)");
                 } else {
-                    name = firstname + index;
+
+                    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+                    if (parseInt(index / 10) == 0) {
+                        name = firstname + ".00" + index;
+                    } else if (parseInt(index / 10) > 0 && parseInt(index / 10) < 10) {
+                        name = firstname + ".0" + index;
+                    } else {
+                        name = firstname + "." + index;
+                    }
+
+                    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                     console.log(name);
+
                     UploadPart(name, index)
                         .then((resp) => {
                             console.log("###########  get response ###############");
@@ -135,51 +148,56 @@ function UploadPart(name, index) {
     return new Promise((resolve, reject) => {
 
 
-        fs.readFile(filePath + name, function (err, contents) {
-            if (err) {
-                console.log("error");
-                console.log(err);
-                reject("error on reading file");
+        var readStream = fs.createReadStream(filename);
+
+
+        readStream.on('data', (dataChunk) => {
+
+            if (dataChunk != null) {
+                console.log(name)
+                // console.log(contents);
+
+                //code her ...... uplaod parts 
+                var paramsPart = {
+                    Body: dataChunk,
+                    Bucket: params.Bucket,
+                    Key: params.Key,
+                    PartNumber: index,
+                    UploadId: params.UploadId
+                };
+                s3.uploadPart(paramsPart, function (err, data) {
+                    if (err) {
+                        console.log(err, err.stack);
+                        reject(false);
+                    }
+                    else {
+                        console.log(data);
+                        resolve(true)
+                    }
+
+                });
+
+
+                //********************** */
+
+
+
+
             } else {
-                if (contents != null) {
-                    console.log(name)
-                    console.log(contents);
-
-                    //code her ...... uplaod parts 
-                    var paramsPart = {
-                        Body: contents,
-                        Bucket: params.Bucket,
-                        Key: params.Key,
-                        PartNumber: index,
-                        UploadId: params.UploadId
-                    };
-                    s3.uploadPart(paramsPart, function (err, data) {
-                        if (err) {
-                            console.log(err, err.stack);
-                            reject(false);
-                        }
-                        else {
-                            console.log(data);
-                            resolve(true)
-                        }
-
-                    });
-
-
-                    //********************** */
-
-
-
-
-                } else {
-                    console.log("contents is null");
-                    reject("content is null");
-
-                }
+                console.log("contents stream is null");
+                reject("content stream  is null");
 
             }
+        });
+
+        readStream.on('error', function (err) {
+
+            console.log("error");
+            console.log(err);
+            reject("error on reading file stream");
 
         });
+
 
     });
 
