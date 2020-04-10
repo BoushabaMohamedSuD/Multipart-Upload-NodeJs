@@ -22,18 +22,18 @@ var params = {
 console.log("hello mohamed Test");
 
 var firstname = "souvenir.rar";
-index = 100
+index = 99
 console.log(parseInt(index / 100));
 if (parseInt(index / 10) == 0) {
     name = firstname + ".00" + index;
-    console.log(name);
+
 } else if (parseInt(index / 10) > 0 && parseInt(index / 10) < 10) {
     name = firstname + ".0" + index;
-    console.log(name);
-} else if (parseInt(index / 100) > 0 && parseInt(index / 100) < 10) {
+} else {
     name = firstname + "." + index;
-    console.log(name);
 }
+
+console.log(name);
 
 
 /*
