@@ -8,7 +8,7 @@ var s3 = new AWS.S3();
 
 // File
 //var fileName = '5.pdf';
-//var filePath = './' + fileName;
+var filePath = 'C:\\TestSplit'
 //var fileKey = fileName;
 //var buffer = fs.readFileSync('./' + filePath);
 // S3 Upload options
@@ -46,7 +46,45 @@ s3.listParts(params, function (err, data) {
         console.log(err, err.stack);
     } else {
         // console.log(data);
-        console.log(data.Parts.length)
+        index = data.Parts.length + 1;
+        console.log(index);
+        name = "TestPdf.pdf.00" + index;
+        console.log(name);
+
+
     }
 });
+
+
+
+
+
+function UploadPart(name) {
+    console.log(name)
+    return new Promise((resolve, reject) => {
+
+        fs.readFile(filePath + name, function (err, contents) {
+            if (err) {
+                console.log("error");
+                console.log(err);
+                resolve(false);
+            } else {
+                if (contents != null) {
+                    console.log(contents);
+                    resolve(true);
+
+                } else {
+                    console.log("contents is null");
+                    resolve(false);
+
+                }
+
+            }
+
+        });
+
+    });
+
+}
+
 
