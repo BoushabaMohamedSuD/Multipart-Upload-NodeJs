@@ -10,7 +10,7 @@ var s3 = new AWS.S3();
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 /***************       those variables should be changed every time you change the large file wanted  */
-var firstname = "souvenir.rar.00";
+var firstname = "souvenir.rar";
 var filePath = 'C:\\Souvenir-Split\\';
 
 // how many files in the folder +1
@@ -93,8 +93,18 @@ function MpProcess(params) {
                     console.log("!!!!!!!!!!!!!!!! FiNiSh::::");
                     resolve("END :)");
                 } else {
-                    name = firstname + index;
+
+
+                    if (parseInt(index / 10) == 0) {
+                        name = firstname + ".00" + index;
+                    } else if (parseInt(index / 10) > 0 && parseInt(index / 10) < 10) {
+                        name = firstname + ".0" + index;
+                    } else if (parseInt(index / 100) > 0 && parseInt(index / 100) < 10) {
+                        name = firstname + "." + index;
+                    }
+
                     console.log(name);
+
                     UploadPart(name, index)
                         .then((resp) => {
                             console.log("###########  get response ###############");
