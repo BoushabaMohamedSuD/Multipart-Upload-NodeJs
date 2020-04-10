@@ -1,21 +1,3 @@
-
-////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//////////////////////////////////////////////////////
-///////////////////////////////////////////
-
-/*
-
-BAD SOLUTION
-
-*/
-
-
-
-
-
-//////////////////////////////
-
-
 var AWS = require("aws-sdk");
 
 var fs = require('fs');
@@ -30,16 +12,16 @@ AWS.config.httpOptions.timeout = 0;
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 /***************       those variables should be changed every time you change the large file wanted  */
-var firstname = "Test.MKV";
-var filePath = 'C:\\TestSplit\\';
+var firstname = "souvenir.rar";
+var filePath = 'C:\\Souvenir-Split\\';
 
 // how many files in the folder +1
-var Max = 4;
+var Max = 2837;
 
 var params = {
-    Bucket: "testboushabamohamed",
-    Key: "Test.MKV",
-    UploadId: "FozMUfahcP9lszX7A6kQpAGhzts.tmeb2SrKisYr5gWsHvmkBZ0x5jEqkfsogim9THLDUakTtP29h6tfALXZeFmIYn8YvVVbIby_vt5IELpIaW0NwqpUJ4wMoOWFRs6R"
+    Bucket: "boushaba-archives",
+    Key: "souvenir.rar",
+    UploadId: "hEUQk6PQiS_on2Uea6fWD8gIWQv_nn24UrpIGNf4ooEjoK1JCtoMX4jTWFLdG450H.TDRiPSl6cuf.VBXGMObeVA4SP_c.5JEQcdKpM5LuTymgVg5OhGa7s5YwvufI.i"
 };
 
 
@@ -165,67 +147,28 @@ function UploadPart(name, index) {
 
     return new Promise((resolve, reject) => {
 
-
-        var readStream = fs.createReadStream(filePath + name);
-
-
-        readStream.on('data', (dataChunk) => {
-
-            if (dataChunk != null) {
-                //console.log(name)
-                // console.log(contents);
-
-                //code her ...... uplaod parts 
-                var paramsPart = {
-                    Body: dataChunk,
-                    Bucket: params.Bucket,
-                    Key: params.Key,
-                    PartNumber: index,
-                    UploadId: params.UploadId
-                };
-                s3.uploadPart(paramsPart, (err, data) => {
-                    if (err) {
-                        console.log(err, err.stack);
-                        reject(false);
-                    }
-                    else {
-                        console.log(name);
-                        console.log(data);
-                        //resolve(true)
-                    }
-
-                });
-
-
-                //********************** */
-
-
-
-
-            } else {
-                console.log("contents stream is null");
-                reject("content stream  is null");
-
+        var paramsPart = {
+            Body: Buffer.from(filePath + name),
+            Bucket: params.Bucket,
+            Key: params.Key,
+            PartNumber: index,
+            UploadId: params.UploadId
+        };
+        s3.uploadPart(paramsPart, function (err, data) {
+            if (err) {
+                console.log(err, err.stack);
+                reject(false);
             }
-        });
-
-        readStream.on('error', function (err) {
-
-            console.log("error");
-            console.log(err);
-            reject("error on reading file stream");
+            else {
+                console.log(data);
+                resolve(true)
+            }
 
         });
 
-        readStream.on('open', () => {
-            console.log(name + " file open stream");
-        })
 
-        readStream.on('close', () => {
-            console.log(name + " file end of stream ");
-            resolve(true)
-        })
 
+        //********************** */
 
     });
 
