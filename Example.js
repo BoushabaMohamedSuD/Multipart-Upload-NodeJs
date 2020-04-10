@@ -7,17 +7,25 @@ var fs = require('fs');
 var s3 = new AWS.S3();
 
 
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+/***************       those variables should be changed every time you change the large file wanted  */
+var firstname = "Test.MKV.00";
 var filePath = 'C:\\TestSplit\\';
-var Max = 7;
 
-
+// how many files in the folder +1
+var Max = 4;
 
 var params = {
     Bucket: "testboushabamohamed",
-    Key: "TestPdf",
-    UploadId: "atlQm853bifgbZxY8JeuY7xqbLz1DfHnvuOGHzIUFNzwSYvyfgVlNJvCdvM9pkes9yDhlJkv2kR9WNQovaFwq8jJMHWmOkjDEPGyRu5ukyQon0oSWx2jQ_1PIYlOIl.y"
+    Key: "Test.MKV",
+    UploadId: "RijknXj0FctuIPH5LBoKTvZ5drIf8uLteAoBFnDgTuAzhD3VsjY2nBDeYxFiE72ltdHbTqTCoxvOPg1FQvPjchc_DJGMwGtGeSFsMENvrz4mM5U9eFSiHoN61KzrBdJ."
 };
+
+
+
+//---------------------------------------------------------------------------
+
 
 console.log("hello mohamed Example");
 
@@ -29,11 +37,12 @@ AWS.config.getCredentials(function (err) {
     else {
         console.log("Access key:", AWS.config.credentials.accessKeyId);
         console.log("Secret access key:", AWS.config.credentials.secretAccessKey);
+        console.log("region: ", AWS.config.region);
     }
 });
 
 
-console.log("Region: ", AWS.config.region);
+
 
 
 
@@ -84,7 +93,7 @@ function MpProcess(params) {
                     console.log("!!!!!!!!!!!!!!!! FiNiSh::::");
                     resolve("END :)");
                 } else {
-                    name = "TestPdf.pdf.00" + index;
+                    name = firstname + index;
                     console.log(name);
                     UploadPart(name, index)
                         .then((resp) => {
@@ -94,6 +103,7 @@ function MpProcess(params) {
                             MpProcess(params)
                                 .then((resp) => {
                                     //console.log(resp);
+                                    resolve(resp);
 
 
                                 })
@@ -175,7 +185,7 @@ function UploadPart(name, index) {
 }
 
 function CompleteMultipartUpload() {
-    console.log("...... create Multi Part Uplaod ..............");
+    console.log("...... complet Part Uplaod ..............");
     return new Promise((resolve, reject) => {
 
         var paramsComplet = {
@@ -203,6 +213,9 @@ function CompleteMultipartUpload() {
                         });
                 });
 
+                console.log(paramsComplet);
+                console.log(paramsComplet.MultipartUpload.Parts);
+
                 s3.completeMultipartUpload(paramsComplet, function (err, data) {
                     if (err) {
                         console.log(err, err.stack);
@@ -216,9 +229,6 @@ function CompleteMultipartUpload() {
                 });
             }
         });
-
-
-
 
 
     });
