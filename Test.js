@@ -8,7 +8,8 @@ var s3 = new AWS.S3();
 
 // File
 //var fileName = '5.pdf';
-var filePath = 'C:\\TestSplit'
+var filePath = 'C:\\TestSplit\\';
+var Max = 7;
 //var fileKey = fileName;
 //var buffer = fs.readFileSync('./' + filePath);
 // S3 Upload options
@@ -39,43 +40,89 @@ console.log("Region: ", AWS.config.region);
 
 
 
-s3.listParts(params)
 
-s3.listParts(params, function (err, data) {
-    if (err) {
-        console.log(err, err.stack);
-    } else {
-        // console.log(data);
-        index = data.Parts.length + 1;
-        console.log(index);
-        name = "TestPdf.pdf.00" + index;
-        console.log(name);
+MpProcess(params)
+    .then((resp) => {
+        console.log(resp);
+
+    })
+    .catch((err) => {
+        console.log(err);
+    })
 
 
-    }
-});
 
 
+
+
+function MpProcess(params) {
+    return new Promise((resolve, reject) => {
+        s3.listParts(params, function (err, data) {
+            if (err) {
+                console.log(err, err.stack);
+                reject("we cannot list parts uplaoded");
+            } else {
+                // console.log(data);
+                index = data.Parts.length + 1;
+                console.log(index);
+                if (index == Max) {
+                    console.log("!!!!!!!!!!!!!!!! FiNiSh::::");
+                    resolve("END :)");
+                } else {
+                    name = "TestPdf.pdf.00" + index;
+                    console.log(name);
+                    UploadPart(name)
+                        .then((resp) => {
+                            console.log("###########  get response ###############");
+                            console.log(resp);
+                            console.log(name + " has been uplaoded succesfly");
+                            MpProcess(params)
+                                .then((resp) => {
+                                    //console.log(resp);
+
+
+                                })
+                                .catch((err) => {
+                                    console.log(err);
+                                    reject("error on mp process : " + name)
+                                })
+
+                        })
+                        .catch((err) => {
+                            console.log("###########  get error ###############");
+                            console.log(err);
+                        })
+
+                }
+
+            }
+        });
+
+
+    });
+}
 
 
 
 function UploadPart(name) {
-    console.log(name)
+
     return new Promise((resolve, reject) => {
+
 
         fs.readFile(filePath + name, function (err, contents) {
             if (err) {
                 console.log("error");
                 console.log(err);
-                resolve(false);
+                reject("error on reading file");
             } else {
                 if (contents != null) {
+                    console.log(name)
                     console.log(contents);
                     resolve(true);
 
                 } else {
                     console.log("contents is null");
-                    resolve(false);
+                    reject("content is null");
 
                 }
 
