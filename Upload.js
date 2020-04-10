@@ -8,7 +8,7 @@ console.log("uplaod a file");
 
 var s3 = new AWS.S3();
 
-name = "1.PNG"
+name = "TestPdf.pdf.00" + index
 
 
 fs.readFile('C:\\Users\\mohamed\\Desktop\\SEO\\' + name, function (err, contents) {
