@@ -16,12 +16,12 @@ var firstname = "souvenir.rar";
 var filePath = 'C:\\Souvenir-Split\\';
 
 // how many files in the folder +1
-var Max = 143;
+var Max = 2837;
 
 var params = {
     Bucket: "boushaba-archives",
     Key: "souvenir.rar",
-    UploadId: "QJ5_pr8yVmiE7OHz6rGi.VDMaBQEpXW0C6z1iic3XeHfu8.akrCvIbpdvAOIEKptXbcS1NEXj5pILNLIUt2slZOU4Z0vWytJBko33NGilQDcI4XAUMQZV3nGS5J3_Oi_"
+    UploadId: "hEUQk6PQiS_on2Uea6fWD8gIWQv_nn24UrpIGNf4ooEjoK1JCtoMX4jTWFLdG450H.TDRiPSl6cuf.VBXGMObeVA4SP_c.5JEQcdKpM5LuTymgVg5OhGa7s5YwvufI.i"
 };
 
 
