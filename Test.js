@@ -27,8 +27,14 @@ s3.listParts(params, function (err, data) {
         console.log(err);
         reject("we cannot list parts");
     } else {
+        var paramsComplet = [];
         data.Parts.forEach(element => {
             console.log(element.PartNumber);
+            paramsComplet.push({
+                Bucket: params.Bucket,
+                nbr: element.PartNumber,
+            })
         });
+        console.log(paramsComplet);
     }
 });

@@ -44,6 +44,14 @@ MpProcess(params)
         if (resp == "END :)") {
 
             // code to complet multipart uplaod
+            CompleteMultipartUpload()
+                .then(resp => {
+                    console.log(resp)
+                })
+                .catch(err => {
+                    console.log(err)
+                });
+
 
             //********************** */
 
@@ -166,11 +174,20 @@ function UploadPart(name, index) {
 
 }
 
-function CreateMultiPartUpload() {
+function CompleteMultipartUpload() {
     console.log("...... create Multi Part Uplaod ..............");
     return new Promise((resolve, reject) => {
 
-        var paramsComplet = []
+        var paramsComplet = {
+            Bucket: params.Bucket,
+            Key: params.Key,
+            MultipartUpload: {
+                Parts: [
+
+                ]
+            },
+            UploadId: params.UploadId
+        };
 
         s3.listParts(params, function (err, data) {
             if (err) {
@@ -178,30 +195,37 @@ function CreateMultiPartUpload() {
                 reject("we cannot list parts");
             } else {
                 data.Parts.forEach(element => {
-                    console.log(element.PartNumber);
+                    paramsComplet.MultipartUpload
+                        .Parts.push({
+                            ETag: element.ETag,
+                            PartNumber: element.PartNumber
+
+                        });
+                });
+
+                s3.completeMultipartUpload(paramsComplet, function (err, data) {
+                    if (err) {
+                        console.log(err, err.stack);
+                        reject("cannot complet MultipartUplaod");
+                    }
+                    else {
+                        console.log(data);
+                        resolve('nice work :)');
+                    }
+
                 });
             }
         });
 
-        /* var params = [{
-             Bucket: "examplebucket",
-             Key: "largeobject"
-         }];*/
 
-        s3.createMultipartUpload(params, function (err, data) {
-            if (err) {
-                console.log(err, err.stack);
-                reject("cannot complet MultipartUplaod");
-            }
-            else {
-                console.log(data);
-                resolve('nice work :)');
-            }
 
-        });
+
+
     });
 
 }
+
+
 
 
 
