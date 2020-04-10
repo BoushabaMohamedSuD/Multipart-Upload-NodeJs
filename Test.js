@@ -44,6 +44,16 @@ console.log("Region: ", AWS.config.region);
 MpProcess(params)
     .then((resp) => {
         console.log(resp);
+        if (resp == "END :)") {
+
+            // code to complet multipart uplaod
+
+            //********************** */
+
+        } else {
+            console.log("resp in not END !!!!!!!!!!");
+            console.log("it should be problem there you 'v to fix it");
+        }
 
     })
     .catch((err) => {
@@ -71,7 +81,7 @@ function MpProcess(params) {
                 } else {
                     name = "TestPdf.pdf.00" + index;
                     console.log(name);
-                    UploadPart(name)
+                    UploadPart(name, index)
                         .then((resp) => {
                             console.log("###########  get response ###############");
                             console.log(resp);
@@ -104,7 +114,7 @@ function MpProcess(params) {
 
 
 
-function UploadPart(name) {
+function UploadPart(name, index) {
 
     return new Promise((resolve, reject) => {
 
@@ -118,7 +128,31 @@ function UploadPart(name) {
                 if (contents != null) {
                     console.log(name)
                     console.log(contents);
-                    resolve(true);
+
+                    //code her ...... uplaod parts 
+                    var paramsPart = {
+                        Body: contents,
+                        Bucket: params.Bucket,
+                        Key: params.Key,
+                        PartNumber: 1,
+                        UploadId: params.UploadId
+                    };
+                    s3.uploadPart(paramsPart, function (err, data) {
+                        if (err) {
+                            console.log(err, err.stack);
+                        }
+                        else {
+                            console.log(data);
+                            resolve(true)
+                        }
+
+                    });
+
+
+                    //********************** */
+
+
+
 
                 } else {
                     console.log("contents is null");
@@ -133,5 +167,8 @@ function UploadPart(name) {
     });
 
 }
+
+
+
 
 
