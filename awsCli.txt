@@ -1,0 +1,3 @@
+boushaba-archives
+
+aws s3 cp large_test_file s3://boushaba-archives/

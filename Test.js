@@ -16,12 +16,12 @@ var s3 = new AWS.S3();
 
 
 var params = {
-    Bucket: "boushaba-archives",
-    Key: "souvenir.rar",
-    UploadId: "QJ5_pr8yVmiE7OHz6rGi.VDMaBQEpXW0C6z1iic3XeHfu8.akrCvIbpdvAOIEKptXbcS1NEXj5pILNLIUt2slZOU4Z0vWytJBko33NGilQDcI4XAUMQZV3nGS5J3_Oi_"
+    Bucket: "testboushabamohamed",
+    Key: "TestPdf",
+    UploadId: "atlQm853bifgbZxY8JeuY7xqbLz1DfHnvuOGHzIUFNzwSYvyfgVlNJvCdvM9pkes9yDhlJkv2kR9WNQovaFwq8jJMHWmOkjDEPGyRu5ukyQon0oSWx2jQ_1PIYlOIl.y"
 };
 
-console.log("hello mohamed");
+console.log("hello mohamed Test");
 
 
 

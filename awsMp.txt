@@ -1,0 +1,133 @@
+
+#############################################################
+
+***********  Test Splt *********************************
+
+aws s3api create-multipart-upload --bucket testboushabamohamed --key TestPdf
+
+{
+    "Bucket": "testboushabamohamed",
+    "Key": "TestPdf",
+    "UploadId": "atlQm853bifgbZxY8JeuY7xqbLz1DfHnvuOGHzIUFNzwSYvyfgVlNJvCdvM9pkes9yDhlJkv2kR9WNQovaFwq8jJMHWmOkjDEPGyRu5ukyQon0oSWx2jQ_1PIYlOIl.y"
+}
+
+
+
+aws s3api upload-part --bucket testboushabamohamed --key TestPdf --part-number 1  --body TestPdf.pdf.001 --upload-id atlQm853bifgbZxY8JeuY7xqbLz1DfHnvuOGHzIUFNzwSYvyfgVlNJvCdvM9pkes9yDhlJkv2kR9WNQovaFwq8jJMHWmOkjDEPGyRu5ukyQon0oSWx2jQ_1PIYlOIl.y
+
+
+aws s3api list-parts --bucket testboushabamohamed  --key TestPdf  --upload-id atlQm853bifgbZxY8JeuY7xqbLz1DfHnvuOGHzIUFNzwSYvyfgVlNJvCdvM9pkes9yDhlJkv2kR9WNQovaFwq8jJMHWmOkjDEPGyRu5ukyQon0oSWx2jQ_1PIYlOIl.y
+
+
+
+
+###########################################################
+
+
+
+aws s3api create-multipart-upload --bucket boushaba-archives --key souvenir.rar
+
+
+{
+    "Bucket": "boushaba-archives",
+    "Key": "souvenir.rar",
+    "UploadId": "QJ5_pr8yVmiE7OHz6rGi.VDMaBQEpXW0C6z1iic3XeHfu8.akrCvIbpdvAOIEKptXbcS1NEXj5pILNLIUt2slZOU4Z0vWytJBko33NGilQDcI4XAUMQZV3nGS5J3_Oi_"
+}
+
+
+
+
+
+aws s3api upload-part --bucket <> --key souvenir.rar --part-number <>  --body <> --upload-id <>
+
+aws s3api upload-part --bucket boushaba-archives --key souvenir.rar --part-number <>  --body <> --upload-id QJ5_pr8yVmiE7OHz6rGi.VDMaBQEpXW0C6z1iic3XeHfu8.akrCvIbpdvAOIEKptXbcS1NEXj5pILNLIUt2slZOU4Z0vWytJBko33NGilQDcI4XAUMQZV3nGS5J3_Oi_
+
+aws s3api upload-part --bucket boushaba-archives --key souvenir.rar --part-number 1  --body souvenir.rar.001 --upload-id QJ5_pr8yVmiE7OHz6rGi.VDMaBQEpXW0C6z1iic3XeHfu8.akrCvIbpdvAOIEKptXbcS1NEXj5pILNLIUt2slZOU4Z0vWytJBko33NGilQDcI4XAUMQZV3nGS5J3_Oi_
+
+
+//list
+
+aws s3api list-parts --bucket <> --key <> --upload-id <>
+
+aws s3api list-parts --bucket boushaba-archives --key souvenir.rar --upload-id QJ5_pr8yVmiE7OHz6rGi.VDMaBQEpXW0C6z1iic3XeHfu8.akrCvIbpdvAOIEKptXbcS1NEXj5pILNLIUt2slZOU4Z0vWytJBko33NGilQDcI4XAUMQZV3nGS5J3_Oi_
+
+
+
+
+
+//.................list........................................
+
+aws s3api upload-part --bucket boushaba-archives --key souvenir.rar --part-number 1  --body souvenir.rar.001 --upload-id QJ5_pr8yVmiE7OHz6rGi.VDMaBQEpXW0C6z1iic3XeHfu8.akrCvIbpdvAOIEKptXbcS1NEXj5pILNLIUt2slZOU4Z0vWytJBko33NGilQDcI4XAUMQZV3nGS5J3_Oi_
+
+aws s3api upload-part --bucket boushaba-archives --key souvenir.rar --part-number 2  --body souvenir.rar.002 --upload-id QJ5_pr8yVmiE7OHz6rGi.VDMaBQEpXW0C6z1iic3XeHfu8.akrCvIbpdvAOIEKptXbcS1NEXj5pILNLIUt2slZOU4Z0vWytJBko33NGilQDcI4XAUMQZV3nGS5J3_Oi_
+
+
+aws s3api upload-part --bucket boushaba-archives --key souvenir.rar --part-number 3  --body souvenir.rar.003 --upload-id QJ5_pr8yVmiE7OHz6rGi.VDMaBQEpXW0C6z1iic3XeHfu8.akrCvIbpdvAOIEKptXbcS1NEXj5pILNLIUt2slZOU4Z0vWytJBko33NGilQDcI4XAUMQZV3nGS5J3_Oi_
+
+
+
+aws s3api upload-part --bucket boushaba-archives --key souvenir.rar --part-number 4  --body souvenir.rar.004 --upload-id QJ5_pr8yVmiE7OHz6rGi.VDMaBQEpXW0C6z1iic3XeHfu8.akrCvIbpdvAOIEKptXbcS1NEXj5pILNLIUt2slZOU4Z0vWytJBko33NGilQDcI4XAUMQZV3nGS5J3_Oi_
+
+
+aws s3api upload-part --bucket boushaba-archives --key souvenir.rar --part-number 5  --body souvenir.rar.005 --upload-id QJ5_pr8yVmiE7OHz6rGi.VDMaBQEpXW0C6z1iic3XeHfu8.akrCvIbpdvAOIEKptXbcS1NEXj5pILNLIUt2slZOU4Z0vWytJBko33NGilQDcI4XAUMQZV3nGS5J3_Oi_
+
+
+
+aws s3api upload-part --bucket boushaba-archives --key souvenir.rar --part-number 6  --body souvenir.rar.006 --upload-id QJ5_pr8yVmiE7OHz6rGi.VDMaBQEpXW0C6z1iic3XeHfu8.akrCvIbpdvAOIEKptXbcS1NEXj5pILNLIUt2slZOU4Z0vWytJBko33NGilQDcI4XAUMQZV3nGS5J3_Oi_
+
+
+
+aws s3api upload-part --bucket boushaba-archives --key souvenir.rar --part-number 7  --body souvenir.rar.007 --upload-id QJ5_pr8yVmiE7OHz6rGi.VDMaBQEpXW0C6z1iic3XeHfu8.akrCvIbpdvAOIEKptXbcS1NEXj5pILNLIUt2slZOU4Z0vWytJBko33NGilQDcI4XAUMQZV3nGS5J3_Oi_
+
+
+
+
+
+
+
+
+
+
+
+aws s3api upload-part --bucket boushaba-archives --key souvenir.rar --part-number 8  --body souvenir.rar.008 --upload-id QJ5_pr8yVmiE7OHz6rGi.VDMaBQEpXW0C6z1iic3XeHfu8.akrCvIbpdvAOIEKptXbcS1NEXj5pILNLIUt2slZOU4Z0vWytJBko33NGilQDcI4XAUMQZV3nGS5J3_Oi_
+
+
+
+
+
+
+
+aws s3api upload-part --bucket boushaba-archives --key souvenir.rar --part-number 9  --body souvenir.rar.009 --upload-id QJ5_pr8yVmiE7OHz6rGi.VDMaBQEpXW0C6z1iic3XeHfu8.akrCvIbpdvAOIEKptXbcS1NEXj5pILNLIUt2slZOU4Z0vWytJBko33NGilQDcI4XAUMQZV3nGS5J3_Oi_
+
+
+
+
+
+
+aws s3api upload-part --bucket boushaba-archives --key souvenir.rar --part-number 10  --body souvenir.rar.010 --upload-id QJ5_pr8yVmiE7OHz6rGi.VDMaBQEpXW0C6z1iic3XeHfu8.akrCvIbpdvAOIEKptXbcS1NEXj5pILNLIUt2slZOU4Z0vWytJBko33NGilQDcI4XAUMQZV3nGS5J3_Oi_
+
+
+
+
+
+aws s3api upload-part --bucket boushaba-archives --key souvenir.rar --part-number 11  --body souvenir.rar.011 --upload-id QJ5_pr8yVmiE7OHz6rGi.VDMaBQEpXW0C6z1iic3XeHfu8.akrCvIbpdvAOIEKptXbcS1NEXj5pILNLIUt2slZOU4Z0vWytJBko33NGilQDcI4XAUMQZV3nGS5J3_Oi_
+
+
+
+aws s3api upload-part --bucket boushaba-archives --key souvenir.rar --part-number 12  --body souvenir.rar.012 --upload-id QJ5_pr8yVmiE7OHz6rGi.VDMaBQEpXW0C6z1iic3XeHfu8.akrCvIbpdvAOIEKptXbcS1NEXj5pILNLIUt2slZOU4Z0vWytJBko33NGilQDcI4XAUMQZV3nGS5J3_Oi_
+
+
+aws s3api upload-part --bucket boushaba-archives --key souvenir.rar --part-number 13  --body souvenir.rar.013 --upload-id QJ5_pr8yVmiE7OHz6rGi.VDMaBQEpXW0C6z1iic3XeHfu8.akrCvIbpdvAOIEKptXbcS1NEXj5pILNLIUt2slZOU4Z0vWytJBko33NGilQDcI4XAUMQZV3nGS5J3_Oi_
+
+
+aws s3api upload-part --bucket boushaba-archives --key souvenir.rar --part-number 14  --body souvenir.rar.014 --upload-id QJ5_pr8yVmiE7OHz6rGi.VDMaBQEpXW0C6z1iic3XeHfu8.akrCvIbpdvAOIEKptXbcS1NEXj5pILNLIUt2slZOU4Z0vWytJBko33NGilQDcI4XAUMQZV3nGS5J3_Oi_
+
+aws s3api upload-part --bucket boushaba-archives --key souvenir.rar --part-number 15  --body souvenir.rar.015 --upload-id QJ5_pr8yVmiE7OHz6rGi.VDMaBQEpXW0C6z1iic3XeHfu8.akrCvIbpdvAOIEKptXbcS1NEXj5pILNLIUt2slZOU4Z0vWytJBko33NGilQDcI4XAUMQZV3nGS5J3_Oi_
+
+
+
+aws s3api upload-part --bucket boushaba-archives --key souvenir.rar --part-number 16  --body souvenir.rar.016 --upload-id QJ5_pr8yVmiE7OHz6rGi.VDMaBQEpXW0C6z1iic3XeHfu8.akrCvIbpdvAOIEKptXbcS1NEXj5pILNLIUt2slZOU4Z0vWytJBko33NGilQDcI4XAUMQZV3nGS5J3_Oi_
+
+
+
+aws s3api upload-part --bucket boushaba-archives --key souvenir.rar --part-number 17  --body souvenir.rar.017 --upload-id QJ5_pr8yVmiE7OHz6rGi.VDMaBQEpXW0C6z1iic3XeHfu8.akrCvIbpdvAOIEKptXbcS1NEXj5pILNLIUt2slZOU4Z0vWytJBko33NGilQDcI4XAUMQZV3nGS5J3_Oi_
