@@ -1,3 +1,25 @@
+
+////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//////////////////////////////////////////////////////
+///////////////////////////////////////////
+
+/*
+
+BAD SOLUTION
+
+*/
+
+
+
+
+
+//////////////////////////////
+
+
+
+
+
+
 var AWS = require("aws-sdk");
 
 var fs = require('fs');
@@ -11,17 +33,17 @@ AWS.config.httpOptions.timeout = 0;
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+
 /***************       those variables should be changed every time you change the large file wanted  */
-var firstname = "souvenir.rar";
-var filePath = 'C:\\Souvenir-Split\\';
+var firstname = "Test.MKV";
+var filePath = 'C:\\TestSplit\\';
 
 // how many files in the folder +1
-var Max = 2837;
-
+var Max = 4;
 var params = {
-    Bucket: "boushaba-archives",
-    Key: "souvenir.rar",
-    UploadId: "hEUQk6PQiS_on2Uea6fWD8gIWQv_nn24UrpIGNf4ooEjoK1JCtoMX4jTWFLdG450H.TDRiPSl6cuf.VBXGMObeVA4SP_c.5JEQcdKpM5LuTymgVg5OhGa7s5YwvufI.i"
+    Bucket: "testboushabamohamed",
+    Key: "Test.MKV",
+    UploadId: "IUxqFKM0eH_G7TieIy6btsRQDU1us3RamAStUtoLcEWx9ZOufJaXWRcg3ECeVt8cxIJsfVX0Q_Z4ej2kYaTK1PfaaAN7zolLSVKRlYy0PFHX6DzQdBm7jCEecjuV8jIl"
 };
 
 
