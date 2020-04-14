@@ -17,10 +17,13 @@ var filePath = 'C:\\Souvenir-Split\\';
 
 // how many files in the folder +1
 var Max = 2837;
+let numberMarker = 0;
 
 var params = {
     Bucket: "boushaba-archives",
     Key: "souvenir.rar",
+    MaxParts: "10000",
+    PartNumberMarker: numberMarker,
     UploadId: "4pzE5UujzcvNPqmRf62RS01e2yZopI50tqXAqQrjD.Nuxbg6fAWEP70s0altHY6uBa4DF_0uP0AG7hWdfuDGQEg2aesFdaEWzzfkNwTlDf2K_H6jzSgSwgTwDniLacE2"
 };
 
@@ -89,7 +92,9 @@ function MpProcess(params) {
                 reject("we cannot list parts uplaoded");
             } else {
                 // console.log(data);
-                index = data.Parts.length + 1;
+                index = data.Parts.length + 1 + numberMarker;
+
+
                 console.log(index);
                 if (index == Max) {
                     console.log("!!!!!!!!!!!!!!!! FiNiSh::::");
@@ -117,6 +122,15 @@ function MpProcess(params) {
                             MpProcess(params)
                                 .then((resp) => {
                                     //console.log(resp);
+
+                                    if (index == 1000) {
+                                        numberMarker == index
+                                    } else if (index == 2000) {
+                                        numberMarker == index
+                                    } else if (index == 3000) {
+                                        numberMarker == index
+                                    }
+
                                     resolve(resp);
 
 
