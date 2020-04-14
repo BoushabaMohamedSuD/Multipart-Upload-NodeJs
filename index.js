@@ -239,6 +239,9 @@ function UploadPart(name, index) {
 
 }
 
+
+//to complet MP on s3
+
 function CompleteMultipartUpload() {
     console.log("...... complet Part Uplaod ..............");
     return new Promise((resolve, reject) => {
@@ -254,22 +257,13 @@ function CompleteMultipartUpload() {
             UploadId: params.UploadId
         };
 
-        s3.listParts(params, function (err, data) {
-            if (err) {
-                console.log(err);
-                reject("we cannot list parts");
-            } else {
-                data.Parts.forEach(element => {
-                    paramsComplet.MultipartUpload
-                        .Parts.push({
-                            ETag: element.ETag,
-                            PartNumber: element.PartNumber
 
-                        });
-                });
 
-                console.log(paramsComplet);
+        fillParamsComplet(paramsComplet, 0)
+            .then((resp) => {
+                console.log(resp);
                 console.log(paramsComplet.MultipartUpload.Parts);
+                console.log(paramsComplet.MultipartUpload.Parts.length);
 
                 s3.completeMultipartUpload(paramsComplet, function (err, data) {
                     if (err) {
@@ -282,13 +276,72 @@ function CompleteMultipartUpload() {
                     }
 
                 });
-            }
-        });
+
+
+            })
+            .catch((err) => {
+                reject("we cannot fill paramsComplet");
+                console.log(err)
+            });
+
+
+
+
 
 
     });
 
 }
+
+
+function fillParamsComplet(paramsComplet, nbrMarker) {
+    return new Promise((resolve, reject) => {
+        var paramsLocale = {
+            Bucket: params.Bucket,
+            Key: params.Key,
+            PartNumberMarker: nbrMarker,
+            UploadId: params.UploadId
+        }
+        s3.listParts(paramsLocale, (err, data) => {
+            if (err) {
+                console.log(err);
+                reject(false)
+            } else {
+                data.Parts.forEach(element => {
+                    paramsComplet.MultipartUpload
+                        .Parts.push({
+                            ETag: element.ETag,
+                            PartNumber: element.PartNumber
+
+                        });
+                });
+
+                if (data.Parts.length % 1000 == 0) {
+                    nbrMarker = nbrMarker + 1000;
+                    fillParamsComplet(paramsComplet, nbrMarker)
+                        .then(resp => {
+                            resolve(resp);
+                        })
+                        .catch(err => reject(err))
+
+                } else {
+
+                    resolve('paramsCompte successe fill');
+
+                }
+
+
+
+            }
+        })
+
+    })
+
+
+}
+
+
+//to get number marker
 
 
 function getNumberMarker(param) {
