@@ -49,34 +49,44 @@ AWS.config.getCredentials(function (err) {
 
 
 
+getNumberMarker(params)
+    .then(nbrMarker => {
+        console.log("PartNumberMarker : " + nbrMarker);
+        params.PartNumberMarker = nbrMarker;
+
+        MpProcess(params)
+            .then((resp) => {
+                console.log(resp);
+                if (resp == "END :)") {
+
+                    // code to complet multipart uplaod
+                    CompleteMultipartUpload()
+                        .then(resp => {
+                            console.log(resp)
+                        })
+                        .catch(err => {
+                            console.log(err)
+                        });
 
 
-MpProcess(params)
-    .then((resp) => {
-        console.log(resp);
-        if (resp == "END :)") {
+                    //********************** */
 
-            // code to complet multipart uplaod
-            CompleteMultipartUpload()
-                .then(resp => {
-                    console.log(resp)
-                })
-                .catch(err => {
-                    console.log(err)
-                });
+                } else {
+                    console.log("resp in not END !!!!!!!!!!");
+                    console.log("it should be problem there you 'v to fix it");
+                }
 
-
-            //********************** */
-
-        } else {
-            console.log("resp in not END !!!!!!!!!!");
-            console.log("it should be problem there you 'v to fix it");
-        }
+            })
+            .catch((err) => {
+                console.log(err);
+            })
 
     })
-    .catch((err) => {
+    .catch(err => {
         console.log(err);
     })
+
+
 
 
 
@@ -118,26 +128,44 @@ function MpProcess(params) {
                             console.log("###########  get response ###############");
                             console.log(resp);
                             console.log(name + " has been uplaoded succesfly");
-                            MpProcess(params)
-                                .then((resp) => {
-                                    //console.log(resp);
+                            if (index % 1000 == 0) {
+                                getNumberMarker(params)
+                                    .then((nbrMarker) => {
+                                        params.PartNumberMarker = nbrMarker;
+                                        MpProcess(params)
+                                            .then((resp) => {
+                                                //console.log(resp);
 
-                                    if (index == 1000) {
-                                        numberMarker == index
-                                    } else if (index == 2000) {
-                                        numberMarker == index
-                                    } else if (index == 3000) {
-                                        numberMarker == index
-                                    }
-
-                                    resolve(resp);
+                                                resolve(resp);
 
 
-                                })
-                                .catch((err) => {
-                                    console.log(err);
-                                    reject("error on mp process : " + name)
-                                })
+                                            })
+                                            .catch((err) => {
+                                                console.log(err);
+                                                reject("error on mp process : " + name)
+                                            })
+
+                                    })
+                                    .catch((err) => {
+                                        console.log("error get nbr index marker : " + err);
+                                        reject(err);
+                                    })
+                            } else {
+                                // console.log(params.UploadId);
+                                MpProcess(params)
+                                    .then((resp) => {
+                                        //console.log(resp);
+
+                                        resolve(resp);
+
+
+                                    })
+                                    .catch((err) => {
+                                        console.log(err);
+                                        reject("error on mp process : " + name)
+                                    })
+                            }
+
 
                         })
                         .catch((err) => {
