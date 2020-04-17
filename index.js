@@ -348,7 +348,7 @@ function getNumberMarker(param) {
     return new Promise((res, rej) => {
         fetchDataListParts(param)
             .then((data) => {
-                if (data.Parts.length % 1000 == 0) {
+                if (data.Parts.length == 1000) {
                     numberMarker = numberMarker + data.Parts.length;
                     param.PartNumberMarker = numberMarker;
                     getNumberMarker(param)
